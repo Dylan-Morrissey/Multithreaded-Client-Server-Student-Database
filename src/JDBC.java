@@ -104,40 +104,36 @@ public class JDBC {
 			return;
 		}
 	}
-	/*
+	
 	public String search(String surname) {
 		try {
-			count = 0;
+			studentCount = 0;
 			Connection conn = this.getConnection();
 			Statement s = conn.createStatement ();
-			s.executeQuery ("SELECT * FROM `employee` WHERE `surname`='"+ surname +"'");
-			ResultSet rs = s.getResultSet ();
-			employees = new ArrayList<Employee>();
-			while (rs.next ()) {
-				Employee employee = new Employee();
-				employee.setSocialSecurityNumber(rs.getInt("social_security_number"));
-				employee.setDateOfBirth(rs.getString("date_of_birth"));
-				employee.setFirstName(rs.getString("first_name"));
-				employee.setSurname(rs.getString("surname"));
-				employee.setSalary(rs.getInt("salary"));
-				employee.setGender(rs.getString("gender").charAt(0));
-				
-				employees.add(employee);
-				count ++;
-				 }
-			rs.close ();
+			s.executeQuery ("SELECT * FROM `students` WHERE = "+surname);
+			ResultSet rsStudent = s.getResultSet ();
+			students = new ArrayList<Student>();
+			while (rsStudent.next ()) {
+				Student student = new Student();
+				student.setSid(rsStudent.getInt("SID"));
+				student.setStudent_id(rsStudent.getInt("STUD_ID"));
+				student.setFirstName(rsStudent.getString("FNAME"));
+				student.setSecondName(rsStudent.getString("SNAME"));
+			
+				students.add(student);
+				studentCount ++;
+			}
+			rsStudent.close ();
 			s.close ();
-			System.out.println (count + " rows were retrieved");
-			if (count == 0) {
-				Employee employee = new Employee();
-				employee.setSocialSecurityNumber(0);
-				employee.setDateOfBirth("");
-				employee.setFirstName("");
-				employee.setSurname("");
-				employee.setSalary(0);
-				employee.setGender(" ".charAt(0));
+			System.out.println (studentCount + " rows were retrieved");
+			if (studentCount == 0) {
+				Student student = new Student();
+				student.setSid(-1);
+				student.setStudent_id(-1);
+				student.setFirstName("");
+				student.setSecondName("");
 				
-				employees.add(employee);
+				students.add(student);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -147,6 +143,7 @@ public class JDBC {
 		return surname;
 	}
 
+	/*
 	public Employee create(Employee employee) {
 		Connection conn = null;
 		

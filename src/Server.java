@@ -35,6 +35,20 @@ public class Server extends JFrame {
         socket.getInputStream());
       DataOutputStream outputToClient = new DataOutputStream(
         socket.getOutputStream());
+      
+      while (true) {
+          // Receive radius from the client
+          double radius = inputFromClient.readDouble();
+
+          // Compute area
+          double area = radius * radius * Math.PI;
+
+          // Send area back to the client
+          outputToClient.writeDouble(area);
+
+          jta.append("Radius received from client: " + radius + '\n');
+          jta.append("Area found: " + area + '\n');
+        }
 
      
     } catch(IOException ex) {
