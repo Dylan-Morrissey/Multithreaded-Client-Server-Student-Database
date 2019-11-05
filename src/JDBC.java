@@ -51,6 +51,9 @@ public class JDBC {
 		// Connect to MySQL
 		Connection conn = null;
 		studentCount = 0;
+		userCount = 0;
+		students = new ArrayList<Student>();
+		users = new ArrayList<User>();
 		
 		try {
 			conn = this.getConnection();
@@ -110,7 +113,7 @@ public class JDBC {
 			studentCount = 0;
 			Connection conn = this.getConnection();
 			Statement s = conn.createStatement ();
-			s.executeQuery ("SELECT * FROM `students` WHERE = "+surname);
+			s.executeQuery ("SELECT * FROM `students` WHERE `SNAME`='"+surname +"'");
 			ResultSet rsStudent = s.getResultSet ();
 			students = new ArrayList<Student>();
 			while (rsStudent.next ()) {

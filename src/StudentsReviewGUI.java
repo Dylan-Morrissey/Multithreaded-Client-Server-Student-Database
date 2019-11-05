@@ -88,11 +88,9 @@ public class StudentsReviewGUI {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(searchField.getText().toString());
+				System.out.println(searchField.getText());
 				if (searchField.getText()!= "") {
-					
 					jdbc.search(searchField.getText());		
-					
 					sidField.setText(String.valueOf(jdbc.students.get(studentno).getSid()));
 					studentIDField.setText(String.valueOf(jdbc.students.get(studentno).getStudent_id()));
 					firstNameField.setText(jdbc.students.get(studentno).getFirstName());
@@ -146,6 +144,22 @@ public class StudentsReviewGUI {
 				studentIDField.setText(String.valueOf(""));
 				firstNameField.setText("");
 				secondNameField.setText("");
+				searchField.setText("");
+			}
+		});
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jdbc.run();
+	
+				sidField.setText(String.valueOf(jdbc.students.get(0).getSid()));
+				studentIDField.setText(String.valueOf(jdbc.students.get(0).getStudent_id()));
+				firstNameField.setText(jdbc.students.get(0).getFirstName());
+				secondNameField.setText(jdbc.students.get(0).getSecondName());
+				userCount.setText("User "+ 1 +" out of " + jdbc.studentCount);
+				searchField.setText("");
+			
 			}
 		});
 		
@@ -155,18 +169,23 @@ public class StudentsReviewGUI {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(130, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblFirstName)
-						.addComponent(lblStudentId)
-						.addComponent(lblSid)
-						.addComponent(lblSecondName))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(searchField)
-						.addComponent(secondNameField)
-						.addComponent(firstNameField)
-						.addComponent(studentIDField)
-						.addComponent(sidField)
-						.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblFirstName)
+								.addComponent(lblStudentId)
+								.addComponent(lblSid)
+								.addComponent(lblSecondName))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(searchField)
+								.addComponent(secondNameField)
+								.addComponent(firstNameField)
+								.addComponent(studentIDField)
+								.addComponent(sidField)
+								.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addComponent(btnRefresh, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+							.addComponent(userCount)))
 					.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(btnNextStudent)
@@ -175,10 +194,6 @@ public class StudentsReviewGUI {
 							.addGap(10)
 							.addComponent(btnClearFields)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(222, Short.MAX_VALUE)
-					.addComponent(userCount)
-					.addGap(164))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -212,9 +227,11 @@ public class StudentsReviewGUI {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnSearch))
 						.addComponent(btnClearFields))
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
 					.addComponent(userCount)
-					.addContainerGap(31, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnRefresh)
+					.addGap(7))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
