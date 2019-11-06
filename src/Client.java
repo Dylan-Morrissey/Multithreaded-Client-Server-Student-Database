@@ -59,18 +59,15 @@ public class Client extends JFrame {
     @Override
     public void actionPerformed(ActionEvent e) {
       try {
-        // Get the radius from the text field
-        double radius = Double.parseDouble(jtf.getText().trim());
-
-        // Send the radius to the server
-        toServer.writeDouble(radius);
-        toServer.flush();
-
-        // Get area from the server
-        double area = fromServer.readDouble();
-
-        // Display to the text area
-
+        int uid = Integer.parseInt(jtf.getText().strip());
+        jtf.setText("");
+        jta.append("Server: Processing......");
+        toServer.writeInt(uid);
+        if(fromServer.readBoolean() == true) {
+        	jta.append("\n" + "Welcome " + fromServer.readUTF());
+        } else {
+        	jta.append("\n" + uid + ": Invalid Login.\n");
+        }
       }
       catch (IOException ex) {
         System.err.println(ex);

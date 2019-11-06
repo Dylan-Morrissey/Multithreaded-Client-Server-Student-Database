@@ -7,8 +7,10 @@ import javax.swing.*;
 public class Server extends JFrame {
   // Text area for displaying contents
   private JTextArea jta = new JTextArea();
-
+  private static JDBC jdbc = new JDBC();
+  
   public static void main(String[] args) {
+	jdbc.run();
     new Server();
   }
 
@@ -37,17 +39,18 @@ public class Server extends JFrame {
         socket.getOutputStream());
       
       while (true) {
-          // Receive radius from the client
-          double radius = inputFromClient.readDouble();
+    
+          String username= "";
+          int uid = inputFromClient.readInt();
 
-          // Compute area
-          double area = radius * radius * Math.PI;
-
-          // Send area back to the client
-          outputToClient.writeDouble(area);
-
-          jta.append("Radius received from client: " + radius + '\n');
-          jta.append("Area found: " + area + '\n');
+          if (jdbc.findUserById(uid) != "") {
+        	  outputToClient.writeBoolean(true);
+        	  outputToClient.writeUTF(jdbc.findUserById(uid));
+          }
+        	  
+          
+          jta.append("UID received from client: " + uid + '\n');
+      
         }
 
      

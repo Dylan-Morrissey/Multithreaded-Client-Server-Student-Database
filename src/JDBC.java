@@ -145,7 +145,17 @@ public class JDBC {
 		
 		return surname;
 	}
-
+	
+	public String findUserById(int uid) {
+		String username = "";
+		for (int counter = 0; counter < users.size(); counter ++) {
+			if (uid == users.get(counter).getUid()) {
+				 username = users.get(counter).getUserName();
+				 break;
+			} 
+		}
+		return username;
+	}
 	/*
 	public Employee create(Employee employee) {
 		Connection conn = null;
