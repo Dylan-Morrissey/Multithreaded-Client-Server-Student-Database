@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 
 public class StudentsReviewGUI {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField sidField;
 	private JTextField studentIDField;
 	private JTextField firstNameField;
@@ -30,17 +30,9 @@ public class StudentsReviewGUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		jdbc.run();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					StudentsReviewGUI window = new StudentsReviewGUI();
-					window.frame.setVisible(true);
-					window.frame.setBounds(500,120,400,450);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				
 			}
 		});
 	}
@@ -49,6 +41,7 @@ public class StudentsReviewGUI {
 	 * Create the application.
 	 */
 	public StudentsReviewGUI() {
+		jdbc.run();
 		initialize();
 		sidField.setText(String.valueOf(jdbc.students.get(studentno).getSid()));
 		studentIDField.setText(String.valueOf(jdbc.students.get(studentno).getStudent_id()));

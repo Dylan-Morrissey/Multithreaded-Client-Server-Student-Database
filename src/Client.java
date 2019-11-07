@@ -10,6 +10,7 @@ public class Client extends JFrame {
 
   // Text area to display contents
   private JTextArea jta = new JTextArea();
+  private static StudentsReviewGUI gui = new StudentsReviewGUI();
 
   // IO streams
   private DataOutputStream toServer;
@@ -65,6 +66,12 @@ public class Client extends JFrame {
         toServer.writeInt(uid);
         if(fromServer.readBoolean() == true) {
         	jta.append("\n" + "Welcome " + fromServer.readUTF());
+			StudentsReviewGUI window = new StudentsReviewGUI();
+			window.frame.setVisible(true);
+			window.frame.setBounds(500,120,400,450);
+			window.frame.setVisible(true);
+        	
+     
         } else {
         	jta.append("\n" + uid + ": Invalid Login.\n");
         }
