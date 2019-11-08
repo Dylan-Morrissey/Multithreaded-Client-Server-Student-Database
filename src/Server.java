@@ -1,8 +1,14 @@
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Date;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class Server extends JFrame {
   // Text area for displaying contents
@@ -30,26 +36,15 @@ public class Server extends JFrame {
       jta.append("Server started at " + new Date() + '\n');
 
       // Listen for a connection request
-      Socket socket = serverSocket.accept();
-
-      // Create data input and output streams
-      DataInputStream inputFromClient = new DataInputStream(
-        socket.getInputStream());
-      DataOutputStream outputToClient = new DataOutputStream(
-        socket.getOutputStream());
       
       while (true) {
-    
-          String username= "";
-          int uid = inputFromClient.readInt();
+    	  Socket socket = serverSocket.accept();
 
-          if (jdbc.findUserById(uid) != "") {
-        	  outputToClient.writeBoolean(true);
-        	  outputToClient.writeUTF(jdbc.findUserById(uid));
-          }
-        	  
+    	  ClientHandler clienthandler = new ClientHandler(socket);
+    	  clienthandler.start();
+        	 
           
-          jta.append("UID received from client: " + uid + '\n');
+         // jta.append("UID received from client: " + uid + '\n');
       
         }
 

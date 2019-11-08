@@ -1,8 +1,17 @@
-import java.io.*;
-import java.net.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class Client extends JFrame {
   // Text field for receiving radius
@@ -42,8 +51,6 @@ public class Client extends JFrame {
     try {
       // Create a socket to connect to the server
       Socket socket = new Socket("localhost", 8000);
-      // Socket socket = new Socket("130.254.204.36", 8000);
-      // Socket socket = new Socket("drake.Armstrong.edu", 8000);
 
       // Create an input stream to receive data from the server
       fromServer = new DataInputStream(socket.getInputStream());
@@ -65,7 +72,7 @@ public class Client extends JFrame {
         jta.append("Server: Processing......");
         toServer.writeInt(uid);
         if(fromServer.readBoolean() == true) {
-        	jta.append("\n" + "Welcome " + fromServer.readUTF());
+        	jta.append("\nClient-1: Welcome " + fromServer.readUTF() + "... You are now connected to the Server.");
 			StudentsReviewGUI window = new StudentsReviewGUI();
 			window.frame.setVisible(true);
 			window.frame.setBounds(500,120,400,450);
@@ -73,7 +80,7 @@ public class Client extends JFrame {
         	
      
         } else {
-        	jta.append("\n" + uid + ": Invalid Login.\n");
+        	jta.append("\nClient-1 Sorry " + uid + ". You are not a registered student. Bye.\n");
         }
       }
       catch (IOException ex) {
