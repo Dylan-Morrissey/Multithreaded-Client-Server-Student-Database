@@ -146,6 +146,44 @@ public class JDBC {
 		return surname;
 	}
 	
+	public ArrayList searchSurname(String surname) {
+		try {
+			studentCount = 0;
+			Connection conn = this.getConnection();
+			Statement s = conn.createStatement ();
+			s.executeQuery ("SELECT * FROM `students` WHERE `SNAME`='"+surname +"'");
+			ResultSet rsStudent = s.getResultSet ();
+			students = new ArrayList<Student>();
+			while (rsStudent.next ()) {
+				Student student = new Student();
+				student.setSid(rsStudent.getInt("SID"));
+				student.setStudent_id(rsStudent.getInt("STUD_ID"));
+				student.setFirstName(rsStudent.getString("FNAME"));
+				student.setSecondName(rsStudent.getString("SNAME"));
+			
+				students.add(student);
+				studentCount ++;
+			}
+			rsStudent.close ();
+			s.close ();
+			System.out.println (studentCount + " rows were retrieved");
+			if (studentCount == 0) {
+				Student student = new Student();
+				student.setSid(-1);
+				student.setStudent_id(-1);
+				student.setFirstName("");
+				student.setSecondName("");
+				
+				students.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return students;
+	}
+	
 	public String findUserById(int uid) {
 		String username = "";
 		for (int counter = 0; counter < users.size(); counter ++) {

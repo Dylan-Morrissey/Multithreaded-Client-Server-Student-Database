@@ -40,6 +40,7 @@ public class StudentsReviewGUI {
 	public StudentsReviewGUI() {
 		jdbc.run();
 		initialize();
+		
 		sidField.setText(String.valueOf(jdbc.students.get(studentno).getSid()));
 		studentIDField.setText(String.valueOf(jdbc.students.get(studentno).getStudent_id()));
 		firstNameField.setText(jdbc.students.get(studentno).getFirstName());
@@ -51,7 +52,7 @@ public class StudentsReviewGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		
+		frame.setTitle("Student Database");
 		sidField = new JTextField();
 		sidField.setColumns(10);
 		
@@ -80,11 +81,11 @@ public class StudentsReviewGUI {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(searchField.getText());
 				if (searchField.getText()!= "") {
-					jdbc.search(searchField.getText());		
-					sidField.setText(String.valueOf(jdbc.students.get(studentno).getSid()));
-					studentIDField.setText(String.valueOf(jdbc.students.get(studentno).getStudent_id()));
-					firstNameField.setText(jdbc.students.get(studentno).getFirstName());
-					secondNameField.setText(jdbc.students.get(studentno).getSecondName());
+					jdbc.searchSurname(searchField.getText());
+					sidField.setText(String.valueOf(jdbc.students.get(0).getSid()));
+					studentIDField.setText(String.valueOf(jdbc.students.get(0).getStudent_id()));
+					firstNameField.setText(jdbc.students.get(0).getFirstName());
+					secondNameField.setText(jdbc.students.get(0).getSecondName());
 					
 					userCount.setText("Student "+ 1 +" out of " + jdbc.studentCount);
 				}
