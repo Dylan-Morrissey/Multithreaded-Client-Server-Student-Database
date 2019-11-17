@@ -39,16 +39,15 @@ public class Server extends JFrame {
       
       while (true) {
     	  Socket socket = serverSocket.accept();
+    	  jta.append("Server: Processing......\n");
 
-    	  ClientHandler clienthandler = new ClientHandler(socket);
+    	  ClientHandler clienthandler = new ClientHandler(socket, jta, jdbc);
+    	  
     	  clienthandler.start();
         	 
           
          // jta.append("UID received from client: " + uid + '\n');
-      
         }
-
-     
     } catch(IOException ex) {
       System.err.println(ex);
     }

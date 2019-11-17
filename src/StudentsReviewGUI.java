@@ -13,13 +13,13 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 public class StudentsReviewGUI {
 
 	public JFrame frame;
-	private JTextField sidField;
-	private JTextField studentIDField;
-	private JTextField firstNameField;
-	private JTextField secondNameField;
+	private JLabel sidField;
+	private JLabel studentIDField;
+	private JLabel firstNameField;
+	private JLabel secondNameField;
+	private JDBC jdbc;
 	private JTextField searchField;
-	private JLabel userCount = new JLabel("Student 1 out of "+jdbc.studentCount);
-	private static JDBC jdbc = new JDBC();
+	private JLabel userCount; 
 	private int studentno = 0;
 	private int currentCount = 0;
 
@@ -36,11 +36,11 @@ public class StudentsReviewGUI {
 
 	/**
 	 * Create the application.
+	 * @wbp.parser.entryPoint
 	 */
-	public StudentsReviewGUI() {
-		jdbc.run();
+	public StudentsReviewGUI(JDBC jdbc) {
+		this.jdbc = jdbc;
 		initialize();
-		
 		sidField.setText(String.valueOf(jdbc.students.get(studentno).getSid()));
 		studentIDField.setText(String.valueOf(jdbc.students.get(studentno).getStudent_id()));
 		firstNameField.setText(jdbc.students.get(studentno).getFirstName());
@@ -53,17 +53,18 @@ public class StudentsReviewGUI {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Student Database");
-		sidField = new JTextField();
-		sidField.setColumns(10);
 		
-		studentIDField = new JTextField();
-		studentIDField.setColumns(10);
+		sidField = new JLabel();
 		
-		firstNameField = new JTextField();
-		firstNameField.setColumns(10);
+		studentIDField = new JLabel();
+
+		firstNameField = new JLabel();
+
 		
-		secondNameField = new JTextField();
-		secondNameField.setColumns(10);
+		secondNameField = new JLabel();
+		
+		userCount = new JLabel("Student 1 out of "+jdbc.studentCount);
+
 		
 		JLabel lblSid = new JLabel("SID");
 		
@@ -154,12 +155,20 @@ public class StudentsReviewGUI {
 			}
 		});
 		
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(130, Short.MAX_VALUE)
+					.addContainerGap(123, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnExit, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblFirstName)
@@ -167,23 +176,20 @@ public class StudentsReviewGUI {
 								.addComponent(lblSid)
 								.addComponent(lblSecondName))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(searchField)
-								.addComponent(secondNameField)
-								.addComponent(firstNameField)
-								.addComponent(studentIDField)
-								.addComponent(sidField)
-								.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addComponent(btnRefresh, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-							.addComponent(userCount)))
-					.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(userCount, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(searchField, Alignment.TRAILING)
+								.addComponent(btnSearch, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(sidField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(studentIDField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(firstNameField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(secondNameField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnNextStudent)
-						.addComponent(btnPreviousStudent)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(10)
-							.addComponent(btnClearFields)))
+						.addComponent(btnClearFields, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnPreviousStudent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnNextStudent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -193,36 +199,36 @@ public class StudentsReviewGUI {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(41)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(sidField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(sidField)
 								.addComponent(lblSid))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(studentIDField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblStudentId))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(firstNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblFirstName)
-								.addComponent(btnPreviousStudent)))
+								.addComponent(studentIDField)
+								.addComponent(lblStudentId)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(52)
 							.addComponent(btnNextStudent)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(firstNameField)
+						.addComponent(lblFirstName)
+						.addComponent(btnPreviousStudent))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(secondNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblSecondName))
-							.addGap(46)
-							.addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSearch))
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(secondNameField)
+						.addComponent(lblSecondName)
 						.addComponent(btnClearFields))
-					.addPreferredGap(ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-					.addComponent(userCount)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(46)
+					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnSearch)
+					.addGap(18)
 					.addComponent(btnRefresh)
-					.addGap(7))
+					.addGap(18)
+					.addComponent(userCount, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+					.addGap(41)
+					.addComponent(btnExit)
+					.addGap(103))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
